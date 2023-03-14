@@ -478,6 +478,7 @@ class ContactBook
 			}
 	    }
 
+		// function to save the entered contact info in a .txt file
 		void OfflineSave()
     	{
     		Node *temp=head;
@@ -499,18 +500,19 @@ class ContactBook
 			}
 		}
 		
+		// function to read the .txt file for further actions like adding, editing or deleting
 		void reopenCB()
 		{
 			bool isEmpty;
-			ifstream myfile ("contactbook.txt");
-            if (myfile.is_open() & myfile.peek() != EOF)
+			ifstream myfile ("contactbook.txt"); // opening file in read mode
+            if (myfile.is_open() & myfile.peek() != EOF) // checking if file is open as well as not empty
             {
-                int i=0;
-                while(getline(myfile,x))
+                int i=0; // initializing from line 1 
+                while(getline(myfile,x)) // reading each line and storing it in x
                 {	
-                    if(i % 2 == 0)
+                    if(i % 2 == 0) // for lines containing name
 					{
-						if(head==NULL)
+						if(head==NULL) // if no node
 	                    {
     	                  Node *newer= new Node;
                           newer->name=x;
@@ -520,7 +522,7 @@ class ContactBook
 	                      head=newer;
 						  tail=newer;
 		                }
-						else
+						else  // if atleast one node
 						{
 							Node *newer= new Node;
 							newer->name=x;
@@ -531,20 +533,20 @@ class ContactBook
 							tail=newer;		
 						} 
                     }
-                   else
+                   else  // for lines containing phone number
                     {
                     	Node *temp=head;
-                    	if(temp->phone_number==0)
+                    	if(temp->phone_number==0) // if only one node
                     	{
                     		
-                    		 stringstream convert(x);
-			       	         convert>>y;
-                             temp->phone_number=y;
+                    		stringstream convert(x); // to convert the string datatype from getline to int
+			       	        convert>>y;  // storing that int in y
+                            temp->phone_number=y;
 						}
-						else
+						else // if more than one node
 						{
 							Node *temp=head;
-		                	while(temp->next!=NULL)
+		                	while(temp->next!=NULL)  // iterating to the last node
 		                	{
 		                		temp=temp->next;
 		                	}
@@ -558,11 +560,11 @@ class ContactBook
 				    }
                     i++;
                 }
-            	myfile.close();
+            	myfile.close(); // closing the file
             }
             else
             {
-            	cout<<"  File is Empty so Cannot open..."<<endl;
+            	cout<<"  File is Empty so Cannot open..."<<endl; // if file is empty
 			}
 		}
 
